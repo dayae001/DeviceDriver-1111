@@ -1,4 +1,7 @@
+from random import randint
+
 from hardware_interface import FlashMemoryDevice
+
 
 class DeviceDriver:
     """
@@ -16,5 +19,20 @@ class DeviceDriver:
         pass
 
     def read(self, address: int) -> int:
-        # TODO: implement this method
+        result = self.read_five_times(address)
+
+        self.assert_all_same(result)
+
         return 0
+
+    def assert_all_same(self, result):
+        for i in range(1, 5):
+            if result[0] == result[i]:
+                continue
+            raise Exception
+
+    def read_five_times(self, address):
+        result = []
+        for i in range(5):
+            result.append(self.__device.read(address))
+        return result
