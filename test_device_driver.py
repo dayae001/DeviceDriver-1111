@@ -5,10 +5,6 @@ from device_driver import DeviceDriver
 
 
 class DeviceDriverTest(TestCase):
-    def setUp(self):
-        self.hardware: FlashMemoryDevice = Mock()
-        self.driver = DeviceDriver(self.hardware)
-
     def test_successful_read(self):
         mk = Mock()
         driver = DeviceDriver(mk)
@@ -27,3 +23,11 @@ class DeviceDriverTest(TestCase):
 
         with self.assertRaises(Exception):
             driver.read(0xAB)
+
+    def test_success_read(self):
+        mk = Mock()
+        driver = DeviceDriver(mk)
+
+        mk.read.side_effect = [1, 1, 1, 1, 1]
+
+        self.assertEqual(driver.read(0xAB), 1)

@@ -23,7 +23,7 @@ class DeviceDriver:
 
         self.assert_all_same(result)
 
-        return 0
+        return result[0]
 
     def assert_all_same(self, result):
         for i in range(1, 5):
