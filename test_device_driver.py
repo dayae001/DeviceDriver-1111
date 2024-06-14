@@ -31,3 +31,27 @@ class DeviceDriverTest(TestCase):
         mk.read.side_effect = [1, 1, 1, 1, 1]
 
         self.assertEqual(driver.read(0xAB), 1)
+
+    def test_write_read(self):
+        mk = Mock()
+        driver = DeviceDriver(mk)
+        mk.read.return_value = 0xFF
+
+        driver.write(0xAB, 12)
+        self.assertEqual(mk.read.call_count, 1)
+
+    def test_write_exception(self):
+        mk = Mock()
+        driver = DeviceDriver(mk)
+        mk.read.return_value = 0x12
+
+        with self.assertRaises(Exception):
+            driver.write(0xAB, 12)
+
+    def test_write_success(self):
+        mk = Mock()
+        driver = DeviceDriver(mk)
+        mk.read.return_value = 0xFF
+        driver.write(0xAB, 12)
+
+        self.assertEqual(mk.write.call_count, 1)
